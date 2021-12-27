@@ -485,6 +485,25 @@ public class DatabaseManager {
         }
     }
 
+    public List<Project> getProjectsInTeam(long teamId) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement
+                     ("SELECT project_id, project_name FROM projects WHERE in_team = ?")) {
+            statement.setLong(1, teamId);
+            List<Project> res = new ArrayList<>();
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    res.add(new ProjectBuilder().setId(rs.getLong("project_id"))
+                            .setName(rs.getString("project_name")).build());
+                }
+                return res;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public String getTeamNameByTeamId(long teamId) {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement

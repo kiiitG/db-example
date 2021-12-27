@@ -43,6 +43,20 @@ public class Transaction {
         return res.toString();
     }
 
+    public String showProjectsInTeam(long teamId) {
+        List<Long> teamIds = dbm.getTeamsByUserId(userId);
+        if (!teamIds.contains(teamId)) {
+            return "You are not allowed to see projects of this team.";
+        }
+
+        List<Project> projects = dbm.getProjectsInTeam(teamId);
+        StringBuilder res = new StringBuilder();
+        for (Project project : projects) {
+            res.append(project.id).append("\t").append(project.name).append("\r\n");
+        }
+        return res.toString();
+    }
+
     public String showProject(long projectId) {
         List<Long> userProjects = dbm.getProjectsByUserId(userId);
         if (userProjects == null) {

@@ -62,6 +62,10 @@ public class Dialog {
             case "show_projects":
                 os.println(transaction.showUserProjects());
                 break;
+            case "show_projects_in_team":
+                os.println(Assertions.assertArgsCount(args, 2)
+                        + " " + Assertions.assertLong(args, List.of(1)));
+                os.println(transaction.showProjectsInTeam(Long.parseLong(args[1])));
             case "show_project":
                 os.println(Assertions.assertArgsCount(args, 2)
                         + " " + Assertions.assertLong(args, List.of(1)));
